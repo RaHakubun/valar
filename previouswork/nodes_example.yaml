@@ -1,0 +1,142 @@
+# 这是一个示例，展示如何为ComfyUI节点添加定义
+# 实际使用时，你需要根据节点的实际输入输出参数来定义
+
+# 基础节点
+CheckpointLoaderSimple:
+  input_params:
+    ckpt_name:
+      type: string
+      default: "default_model.safetensors"
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+    output_2: VAE
+
+EmptyLatentImage:
+  input_params:
+    width:
+      type: int
+      default: 512
+    height:
+      type: int
+      default: 512
+    batch_size:
+      type: int
+      default: 1
+  output_params:
+    output_0: LATENT
+
+# 文本编码节点
+CLIPTextEncode:
+  input_params:
+    text:
+      type: string
+      default: ""
+    clip:
+      type: CLIP
+  output_params:
+    output_0: CONDITIONING
+
+# 采样器节点
+KSampler:
+  input_params:
+    seed:
+      type: int
+      default: 0
+    steps:
+      type: int
+      default: 20
+    cfg:
+      type: float
+      default: 8.0
+    sampler_name:
+      type: string
+      default: "euler"
+    scheduler:
+      type: string
+      default: "normal"
+    denoise:
+      type: float
+      default: 1.0
+    model:
+      type: MODEL
+    positive:
+      type: CONDITIONING
+    negative:
+      type: CONDITIONING
+    latent_image:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+
+# 解码节点
+VAEDecode:
+  input_params:
+    samples:
+      type: LATENT
+    vae:
+      type: VAE
+  output_params:
+    output_0: IMAGE
+
+# 保存图像节点
+SaveImage:
+  input_params:
+    images:
+      type: IMAGE
+    filename_prefix:
+      type: string
+      default: "ComfyUI"
+  output_params: {}
+
+# 更复杂的节点示例
+# ControlNet加载器
+ControlNetLoader:
+  input_params:
+    control_net_name:
+      type: string
+      default: ""
+  output_params:
+    output_0: CONTROL_NET
+
+# ControlNet应用
+ControlNetApply:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    control_net:
+      type: CONTROL_NET
+    image:
+      type: IMAGE
+    strength:
+      type: float
+      default: 1.0
+  output_params:
+    output_0: CONDITIONING
+
+# 图像加载器
+LoadImage:
+  input_params:
+    image:
+      type: string
+      default: "input.png"
+  output_params:
+    output_0: IMAGE
+    output_1: MASK
+
+# 图像缩放
+ImageScale:
+  input_params:
+    image:
+      type: IMAGE
+    width:
+      type: int
+      default: 512
+    height:
+      type: int
+      default: 512
+    upscale_method:
+      type: string
+      default: "bilinear"
+  output_params:
+    output_0: IMAGE

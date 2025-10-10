@@ -1,0 +1,1342 @@
+CLIPLoader:
+  input_params:
+    clip_name:
+      type: '[]'
+    type:
+      type: '[''stable_diffusion'', ''stable_cascade'', ''sd3'', ''stable_audio'',
+        ''mochi'', ''ltxv'', ''pixart'', ''cosmos'', ''lumina2'', ''wan'', ''hidream'',
+        ''chroma'', ''ace'', ''omnigen2'']'
+  output_params:
+    output_0: CLIP
+CLIPSetLastLayer:
+  input_params:
+    clip:
+      type: CLIP
+    stop_at_clip_layer:
+      default: '-1'
+      type: INT
+  output_params:
+    output_0: CLIP
+CLIPTextEncode:
+  input_params:
+    clip:
+      type: CLIP
+    text:
+      type: STRING
+  output_params:
+    output_0: CONDITIONING
+CLIPTextEncodeHunyuanDiT:
+  input_params:
+    bert:
+      type: STRING
+    clip:
+      type: CLIP
+    mt5xl:
+      type: STRING
+  output_params:
+    output_0: CONDITIONING
+CLIPTextEncodePixArtAlpha:
+  input_params:
+    clip:
+      type: CLIP
+    height:
+      default: '1024.0'
+      type: INT
+    text:
+      type: STRING
+    width:
+      default: '1024.0'
+      type: INT
+  output_params:
+    output_0: CONDITIONING
+CLIPVisionEncode:
+  input_params:
+    clip_vision:
+      type: CLIP_VISION
+    crop:
+      type: '[''center'', ''none'']'
+    image:
+      type: IMAGE
+  output_params:
+    output_0: CLIP_VISION_OUTPUT
+CLIPVisionLoader:
+  input_params:
+    clip_name:
+      type: '[]'
+  output_params:
+    output_0: CLIP_VISION
+CheckpointLoader:
+  input_params:
+    ckpt_name:
+      type: '[]'
+    config_name:
+      type: '[''anything_v3.yaml'', ''v1-inference.yaml'', ''v1-inference_clip_skip_2.yaml'',
+        ''v1-inference_clip_skip_2_fp16.yaml'', ''v1-inference_fp16.yaml'', ''v1-inpainting-inference.yaml'',
+        ''v2-inference-v.yaml'', ''v2-inference-v_fp32.yaml'', ''v2-inference.yaml'',
+        ''v2-inference_fp32.yaml'', ''v2-inpainting-inference.yaml'']'
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+    output_2: VAE
+CheckpointLoaderSimple:
+  input_params:
+    ckpt_name:
+      type: '[]'
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+    output_2: VAE
+ConditioningAverage:
+  input_params:
+    conditioning_from:
+      type: CONDITIONING
+    conditioning_to:
+      type: CONDITIONING
+    conditioning_to_strength:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: CONDITIONING
+ConditioningCombine:
+  input_params:
+    conditioning_1:
+      type: CONDITIONING
+    conditioning_2:
+      type: CONDITIONING
+  output_params:
+    output_0: CONDITIONING
+ConditioningConcat:
+  input_params:
+    conditioning_from:
+      type: CONDITIONING
+    conditioning_to:
+      type: CONDITIONING
+  output_params:
+    output_0: CONDITIONING
+ConditioningSetArea:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    height:
+      default: '64'
+      type: INT
+    strength:
+      default: '1.0'
+      type: FLOAT
+    width:
+      default: '64'
+      type: INT
+    x:
+      default: '0'
+      type: INT
+    y:
+      default: '0'
+      type: INT
+  output_params:
+    output_0: CONDITIONING
+ConditioningSetAreaPercentage:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    height:
+      default: '1.0'
+      type: FLOAT
+    strength:
+      default: '1.0'
+      type: FLOAT
+    width:
+      default: '1.0'
+      type: FLOAT
+    x:
+      default: '0'
+      type: FLOAT
+    y:
+      default: '0'
+      type: FLOAT
+  output_params:
+    output_0: CONDITIONING
+ConditioningSetAreaStrength:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    strength:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: CONDITIONING
+ConditioningSetMask:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    mask:
+      type: MASK
+    set_cond_area:
+      type: '[''default'', ''mask bounds'']'
+    strength:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: CONDITIONING
+ConditioningSetTimestepRange:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    end:
+      default: '1.0'
+      type: FLOAT
+    start:
+      default: '0.0'
+      type: FLOAT
+  output_params:
+    output_0: CONDITIONING
+ConditioningZeroOut:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+  output_params:
+    output_0: CONDITIONING
+ControlNetApply:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    control_net:
+      type: CONTROL_NET
+    image:
+      type: IMAGE
+    strength:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: CONDITIONING
+ControlNetApplyAdvanced:
+  input_params:
+    control_net:
+      type: CONTROL_NET
+    end_percent:
+      default: '1.0'
+      type: FLOAT
+    image:
+      type: IMAGE
+    negative:
+      type: CONDITIONING
+    positive:
+      type: CONDITIONING
+    start_percent:
+      default: '0.0'
+      type: FLOAT
+    strength:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    negative: CONDITIONING
+    positive: CONDITIONING
+ControlNetLoader:
+  input_params:
+    control_net_name:
+      type: '[]'
+  output_params:
+    output_0: CONTROL_NET
+DiffControlNetLoader:
+  input_params:
+    control_net_name:
+      type: '[]'
+    model:
+      type: MODEL
+  output_params:
+    output_0: CONTROL_NET
+DiffusersLoader:
+  input_params:
+    model_path:
+      type: '[]'
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+    output_2: VAE
+DualCLIPLoader:
+  input_params:
+    clip_name1:
+      type: '[]'
+    clip_name2:
+      type: '[]'
+    type:
+      type: '[''sdxl'', ''sd3'', ''flux'', ''hunyuan_video'', ''hidream'']'
+  output_params:
+    output_0: CLIP
+EmptyHunyuanLatentVideo:
+  input_params:
+    batch_size:
+      default: '1'
+      type: INT
+    height:
+      default: '480'
+      type: INT
+    length:
+      default: '25'
+      type: INT
+    width:
+      default: '848'
+      type: INT
+  output_params:
+    output_0: LATENT
+EmptyImage:
+  input_params:
+    batch_size:
+      default: '1'
+      type: INT
+    color:
+      default: '0'
+      type: INT
+    height:
+      default: '512'
+      type: INT
+    width:
+      default: '512'
+      type: INT
+  output_params:
+    output_0: IMAGE
+EmptyLTXVLatentVideo:
+  input_params:
+    batch_size:
+      default: '1'
+      type: INT
+    height:
+      default: '512'
+      type: INT
+    length:
+      default: '97'
+      type: INT
+    width:
+      default: '768'
+      type: INT
+  output_params:
+    output_0: LATENT
+EmptyLatentHunyuan3Dv2:
+  input_params:
+    batch_size:
+      default: '1'
+      type: INT
+    resolution:
+      default: '3072'
+      type: INT
+  output_params:
+    output_0: LATENT
+EmptyLatentImage:
+  input_params:
+    batch_size:
+      default: '1'
+      type: INT
+    height:
+      default: '512'
+      type: INT
+    width:
+      default: '512'
+      type: INT
+  output_params:
+    output_0: LATENT
+GLIGENLoader:
+  input_params:
+    gligen_name:
+      type: '[]'
+  output_params:
+    output_0: GLIGEN
+GLIGENTextBoxApply:
+  input_params:
+    clip:
+      type: CLIP
+    conditioning_to:
+      type: CONDITIONING
+    gligen_textbox_model:
+      type: GLIGEN
+    height:
+      default: '64'
+      type: INT
+    text:
+      type: STRING
+    width:
+      default: '64'
+      type: INT
+    x:
+      default: '0'
+      type: INT
+    y:
+      default: '0'
+      type: INT
+  output_params:
+    output_0: CONDITIONING
+Hunyuan3Dv2Conditioning:
+  input_params:
+    clip_vision_output:
+      type: CLIP_VISION_OUTPUT
+  output_params:
+    negative: CONDITIONING
+    positive: CONDITIONING
+Hunyuan3Dv2ConditioningMultiView:
+  input_params: {}
+  output_params:
+    negative: CONDITIONING
+    positive: CONDITIONING
+HunyuanImageToVideo:
+  input_params:
+    batch_size:
+      default: '1'
+      type: INT
+    guidance_type:
+      type: '[''v1 (concat)'', ''v2 (replace)'', ''custom'']'
+    height:
+      default: '480'
+      type: INT
+    length:
+      default: '53'
+      type: INT
+    positive:
+      type: CONDITIONING
+    vae:
+      type: VAE
+    width:
+      default: '848'
+      type: INT
+  output_params:
+    latent: LATENT
+    positive: CONDITIONING
+HyperTile:
+  input_params:
+    max_depth:
+      default: '0'
+      type: INT
+    model:
+      type: MODEL
+    scale_depth:
+      default: 'False'
+      type: BOOLEAN
+    swap_size:
+      default: '2'
+      type: INT
+    tile_size:
+      default: '256'
+      type: INT
+  output_params:
+    output_0: MODEL
+HypernetworkLoader:
+  input_params:
+    hypernetwork_name:
+      type: '[]'
+    model:
+      type: MODEL
+    strength:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: MODEL
+ImageBatch:
+  input_params:
+    image1:
+      type: IMAGE
+    image2:
+      type: IMAGE
+  output_params:
+    output_0: IMAGE
+ImageInvert:
+  input_params:
+    image:
+      type: IMAGE
+  output_params:
+    output_0: IMAGE
+ImagePadForOutpaint:
+  input_params:
+    bottom:
+      default: '0'
+      type: INT
+    feathering:
+      default: '40'
+      type: INT
+    image:
+      type: IMAGE
+    left:
+      default: '0'
+      type: INT
+    right:
+      default: '0'
+      type: INT
+    top:
+      default: '0'
+      type: INT
+  output_params:
+    output_0: IMAGE
+    output_1: MASK
+ImageScale:
+  input_params:
+    crop:
+      type: '[''disabled'', ''center'']'
+    height:
+      default: '512'
+      type: INT
+    image:
+      type: IMAGE
+    upscale_method:
+      type: '[''nearest-exact'', ''bilinear'', ''area'', ''bicubic'', ''lanczos'']'
+    width:
+      default: '512'
+      type: INT
+  output_params:
+    output_0: IMAGE
+ImageScaleBy:
+  input_params:
+    image:
+      type: IMAGE
+    scale_by:
+      default: '1.0'
+      type: FLOAT
+    upscale_method:
+      type: '[''nearest-exact'', ''bilinear'', ''area'', ''bicubic'', ''lanczos'']'
+  output_params:
+    output_0: IMAGE
+InpaintModelConditioning:
+  input_params:
+    mask:
+      type: MASK
+    negative:
+      type: CONDITIONING
+    noise_mask:
+      default: 'True'
+      type: BOOLEAN
+    pixels:
+      type: IMAGE
+    positive:
+      type: CONDITIONING
+    vae:
+      type: VAE
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+InstructPixToPixConditioning:
+  input_params:
+    negative:
+      type: CONDITIONING
+    pixels:
+      type: IMAGE
+    positive:
+      type: CONDITIONING
+    vae:
+      type: VAE
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+KSampler:
+  input_params:
+    cfg:
+      default: '8.0'
+      type: FLOAT
+    denoise:
+      default: '1.0'
+      type: FLOAT
+    latent_image:
+      type: LATENT
+    model:
+      type: MODEL
+    negative:
+      type: CONDITIONING
+    positive:
+      type: CONDITIONING
+    sampler_name:
+      type: '[''euler'', ''euler_cfg_pp'', ''euler_ancestral'', ''euler_ancestral_cfg_pp'',
+        ''heun'', ''heunpp2'', ''dpm_2'', ''dpm_2_ancestral'', ''lms'', ''dpm_fast'',
+        ''dpm_adaptive'', ''dpmpp_2s_ancestral'', ''dpmpp_2s_ancestral_cfg_pp'', ''dpmpp_sde'',
+        ''dpmpp_sde_gpu'', ''dpmpp_2m'', ''dpmpp_2m_cfg_pp'', ''dpmpp_2m_sde'', ''dpmpp_2m_sde_gpu'',
+        ''dpmpp_3m_sde'', ''dpmpp_3m_sde_gpu'', ''ddpm'', ''lcm'', ''ipndm'', ''ipndm_v'',
+        ''deis'', ''res_multistep'', ''res_multistep_cfg_pp'', ''res_multistep_ancestral'',
+        ''res_multistep_ancestral_cfg_pp'', ''gradient_estimation'', ''gradient_estimation_cfg_pp'',
+        ''er_sde'', ''seeds_2'', ''seeds_3'', ''sa_solver'', ''sa_solver_pece'', ''ddim'',
+        ''uni_pc'', ''uni_pc_bh2'']'
+    scheduler:
+      type: '[''simple'', ''sgm_uniform'', ''karras'', ''exponential'', ''ddim_uniform'',
+        ''beta'', ''normal'', ''linear_quadratic'', ''kl_optimal'']'
+    seed:
+      default: '0'
+      type: INT
+    steps:
+      default: '20'
+      type: INT
+  output_params:
+    output_0: LATENT
+KSamplerAdvanced:
+  input_params:
+    add_noise:
+      type: '[''enable'', ''disable'']'
+    cfg:
+      default: '8.0'
+      type: FLOAT
+    end_at_step:
+      default: '10000'
+      type: INT
+    latent_image:
+      type: LATENT
+    model:
+      type: MODEL
+    negative:
+      type: CONDITIONING
+    noise_seed:
+      default: '0'
+      type: INT
+    positive:
+      type: CONDITIONING
+    return_with_leftover_noise:
+      type: '[''disable'', ''enable'']'
+    sampler_name:
+      type: '[''euler'', ''euler_cfg_pp'', ''euler_ancestral'', ''euler_ancestral_cfg_pp'',
+        ''heun'', ''heunpp2'', ''dpm_2'', ''dpm_2_ancestral'', ''lms'', ''dpm_fast'',
+        ''dpm_adaptive'', ''dpmpp_2s_ancestral'', ''dpmpp_2s_ancestral_cfg_pp'', ''dpmpp_sde'',
+        ''dpmpp_sde_gpu'', ''dpmpp_2m'', ''dpmpp_2m_cfg_pp'', ''dpmpp_2m_sde'', ''dpmpp_2m_sde_gpu'',
+        ''dpmpp_3m_sde'', ''dpmpp_3m_sde_gpu'', ''ddpm'', ''lcm'', ''ipndm'', ''ipndm_v'',
+        ''deis'', ''res_multistep'', ''res_multistep_cfg_pp'', ''res_multistep_ancestral'',
+        ''res_multistep_ancestral_cfg_pp'', ''gradient_estimation'', ''gradient_estimation_cfg_pp'',
+        ''er_sde'', ''seeds_2'', ''seeds_3'', ''sa_solver'', ''sa_solver_pece'', ''ddim'',
+        ''uni_pc'', ''uni_pc_bh2'']'
+    scheduler:
+      type: '[''simple'', ''sgm_uniform'', ''karras'', ''exponential'', ''ddim_uniform'',
+        ''beta'', ''normal'', ''linear_quadratic'', ''kl_optimal'']'
+    start_at_step:
+      default: '0'
+      type: INT
+    steps:
+      default: '20'
+      type: INT
+  output_params:
+    output_0: LATENT
+LTXVAddGuide:
+  input_params:
+    frame_idx:
+      default: '0'
+      type: INT
+    image:
+      type: IMAGE
+    latent:
+      type: LATENT
+    negative:
+      type: CONDITIONING
+    positive:
+      type: CONDITIONING
+    strength:
+      default: '1.0'
+      type: FLOAT
+    vae:
+      type: VAE
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+LTXVConditioning:
+  input_params:
+    frame_rate:
+      default: '25.0'
+      type: FLOAT
+    negative:
+      type: CONDITIONING
+    positive:
+      type: CONDITIONING
+  output_params:
+    negative: CONDITIONING
+    positive: CONDITIONING
+LTXVCropGuides:
+  input_params:
+    latent:
+      type: LATENT
+    negative:
+      type: CONDITIONING
+    positive:
+      type: CONDITIONING
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+LTXVImgToVideo:
+  input_params:
+    batch_size:
+      default: '1'
+      type: INT
+    height:
+      default: '512'
+      type: INT
+    image:
+      type: IMAGE
+    length:
+      default: '97'
+      type: INT
+    negative:
+      type: CONDITIONING
+    positive:
+      type: CONDITIONING
+    strength:
+      default: '1.0'
+      type: FLOAT
+    vae:
+      type: VAE
+    width:
+      default: '768'
+      type: INT
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+LTXVPreprocess:
+  input_params:
+    image:
+      type: IMAGE
+    img_compression:
+      default: '35'
+      type: INT
+  output_params:
+    output_image: IMAGE
+LTXVScheduler:
+  input_params:
+    base_shift:
+      default: '0.95'
+      type: FLOAT
+    max_shift:
+      default: '2.05'
+      type: FLOAT
+    steps:
+      default: '20'
+      type: INT
+    stretch:
+      default: 'True'
+      type: BOOLEAN
+    terminal:
+      default: '0.1'
+      type: FLOAT
+  output_params:
+    output_0: SIGMAS
+LatentAdd:
+  input_params:
+    samples1:
+      type: LATENT
+    samples2:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentApplyOperation:
+  input_params:
+    operation:
+      type: LATENT_OPERATION
+    samples:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentApplyOperationCFG:
+  input_params:
+    model:
+      type: MODEL
+    operation:
+      type: LATENT_OPERATION
+  output_params:
+    output_0: MODEL
+LatentBatch:
+  input_params:
+    samples1:
+      type: LATENT
+    samples2:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentBatchSeedBehavior:
+  input_params:
+    samples:
+      type: LATENT
+    seed_behavior:
+      default: fixed
+      type: '[''random'', ''fixed'']'
+  output_params:
+    output_0: LATENT
+LatentBlend:
+  input_params:
+    blend_factor:
+      default: '0.5'
+      type: FLOAT
+    samples1:
+      type: LATENT
+    samples2:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentComposite:
+  input_params:
+    feather:
+      default: '0'
+      type: INT
+    samples_from:
+      type: LATENT
+    samples_to:
+      type: LATENT
+    x:
+      default: '0'
+      type: INT
+    y:
+      default: '0'
+      type: INT
+  output_params:
+    output_0: LATENT
+LatentCrop:
+  input_params:
+    height:
+      default: '512'
+      type: INT
+    samples:
+      type: LATENT
+    width:
+      default: '512'
+      type: INT
+    x:
+      default: '0'
+      type: INT
+    y:
+      default: '0'
+      type: INT
+  output_params:
+    output_0: LATENT
+LatentFlip:
+  input_params:
+    flip_method:
+      type: '[''x-axis: vertically'', ''y-axis: horizontally'']'
+    samples:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentFromBatch:
+  input_params:
+    batch_index:
+      default: '0'
+      type: INT
+    length:
+      default: '1'
+      type: INT
+    samples:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentInterpolate:
+  input_params:
+    ratio:
+      default: '1.0'
+      type: FLOAT
+    samples1:
+      type: LATENT
+    samples2:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentMultiply:
+  input_params:
+    multiplier:
+      default: '1.0'
+      type: FLOAT
+    samples:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentOperationSharpen:
+  input_params:
+    alpha:
+      default: '0.1'
+      type: FLOAT
+    sharpen_radius:
+      default: '9'
+      type: INT
+    sigma:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: LATENT_OPERATION
+LatentOperationTonemapReinhard:
+  input_params:
+    multiplier:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: LATENT_OPERATION
+LatentRotate:
+  input_params:
+    rotation:
+      type: '[''none'', ''90 degrees'', ''180 degrees'', ''270 degrees'']'
+    samples:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentSubtract:
+  input_params:
+    samples1:
+      type: LATENT
+    samples2:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+LatentUpscale:
+  input_params:
+    crop:
+      type: '[''disabled'', ''center'']'
+    height:
+      default: '512'
+      type: INT
+    samples:
+      type: LATENT
+    upscale_method:
+      type: '[''nearest-exact'', ''bilinear'', ''area'', ''bicubic'', ''bislerp'']'
+    width:
+      default: '512'
+      type: INT
+  output_params:
+    output_0: LATENT
+LatentUpscaleBy:
+  input_params:
+    samples:
+      type: LATENT
+    scale_by:
+      default: '1.5'
+      type: FLOAT
+    upscale_method:
+      type: '[''nearest-exact'', ''bilinear'', ''area'', ''bicubic'', ''bislerp'']'
+  output_params:
+    output_0: LATENT
+Load3D:
+  input_params:
+    height:
+      default: '1024'
+      type: INT
+    image:
+      type: LOAD_3D
+    model_file:
+      type: '[]'
+    width:
+      default: '1024'
+      type: INT
+  output_params:
+    camera_info: LOAD3D_CAMERA
+    image: IMAGE
+    lineart: IMAGE
+    mask: MASK
+    mesh_path: STRING
+    normal: IMAGE
+    recording_video: VIDEO
+Load3DAnimation:
+  input_params:
+    height:
+      default: '1024'
+      type: INT
+    image:
+      type: LOAD_3D_ANIMATION
+    model_file:
+      type: '[]'
+    width:
+      default: '1024'
+      type: INT
+  output_params:
+    camera_info: LOAD3D_CAMERA
+    image: IMAGE
+    mask: MASK
+    mesh_path: STRING
+    normal: IMAGE
+    recording_video: VIDEO
+LoadImage:
+  input_params:
+    image:
+      type: '[''09ce132519affd04fb45c589802132.jpg'', ''QIq9tKOS4fkwGd59mQ.webp'',
+        ''example.png'', ''outputs-20250531-nyxc5dbfwu.png'']'
+  output_params:
+    output_0: IMAGE
+    output_1: MASK
+LoadImageMask:
+  input_params:
+    channel:
+      type: '[''alpha'', ''red'', ''green'', ''blue'']'
+    image:
+      type: '[''09ce132519affd04fb45c589802132.jpg'', ''18392_Nature-Stock-Footage_medium.mp4'',
+        ''QIq9tKOS4fkwGd59mQ.webp'', ''example.png'', ''outputs-20250531-nyxc5dbfwu.png'']'
+  output_params:
+    output_0: MASK
+LoadImageOutput:
+  input_params:
+    image:
+      type: COMBO
+  output_params:
+    output_0: IMAGE
+    output_1: MASK
+LoadLatent:
+  input_params:
+    latent:
+      type: '[]'
+  output_params:
+    output_0: LATENT
+LoraLoader:
+  input_params:
+    clip:
+      type: CLIP
+    lora_name:
+      type: '[]'
+    model:
+      type: MODEL
+    strength_clip:
+      default: '1.0'
+      type: FLOAT
+    strength_model:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+LoraLoaderModelOnly:
+  input_params:
+    lora_name:
+      type: '[]'
+    model:
+      type: MODEL
+    strength_model:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: MODEL
+LoraSave:
+  input_params:
+    bias_diff:
+      default: 'True'
+      type: BOOLEAN
+    filename_prefix:
+      default: loras/ComfyUI_extracted_lora
+      type: STRING
+    lora_type:
+      type: ('standard', 'full_diff')
+    rank:
+      default: '8'
+      type: INT
+  output_params: {}
+LotusConditioning:
+  input_params: {}
+  output_params:
+    conditioning: CONDITIONING
+ModelSamplingLTXV:
+  input_params:
+    base_shift:
+      default: '0.95'
+      type: FLOAT
+    max_shift:
+      default: '2.05'
+      type: FLOAT
+    model:
+      type: MODEL
+  output_params:
+    output_0: MODEL
+Preview3D:
+  input_params:
+    model_file:
+      default: ''
+      type: STRING
+  output_params: {}
+Preview3DAnimation:
+  input_params:
+    model_file:
+      default: ''
+      type: STRING
+  output_params: {}
+PreviewImage:
+  input_params:
+    images:
+      type: IMAGE
+  output_params: {}
+RepeatLatentBatch:
+  input_params:
+    amount:
+      default: '1'
+      type: INT
+    samples:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+SV3D_Conditioning:
+  input_params:
+    clip_vision:
+      type: CLIP_VISION
+    elevation:
+      default: '0.0'
+      type: FLOAT
+    height:
+      default: '576'
+      type: INT
+    init_image:
+      type: IMAGE
+    vae:
+      type: VAE
+    video_frames:
+      default: '21'
+      type: INT
+    width:
+      default: '576'
+      type: INT
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+SaveGLB:
+  input_params:
+    filename_prefix:
+      default: mesh/ComfyUI
+      type: STRING
+    mesh:
+      type: MESH
+  output_params: {}
+SaveImage:
+  input_params:
+    filename_prefix:
+      default: ComfyUI
+      type: STRING
+    images:
+      type: IMAGE
+  output_params: {}
+SaveLatent:
+  input_params:
+    filename_prefix:
+      default: latents/ComfyUI
+      type: STRING
+    samples:
+      type: LATENT
+  output_params: {}
+SetLatentNoiseMask:
+  input_params:
+    mask:
+      type: MASK
+    samples:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+StableZero123_Conditioning:
+  input_params:
+    azimuth:
+      default: '0.0'
+      type: FLOAT
+    batch_size:
+      default: '1'
+      type: INT
+    clip_vision:
+      type: CLIP_VISION
+    elevation:
+      default: '0.0'
+      type: FLOAT
+    height:
+      default: '256'
+      type: INT
+    init_image:
+      type: IMAGE
+    vae:
+      type: VAE
+    width:
+      default: '256'
+      type: INT
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+StableZero123_Conditioning_Batched:
+  input_params:
+    azimuth:
+      default: '0.0'
+      type: FLOAT
+    azimuth_batch_increment:
+      default: '0.0'
+      type: FLOAT
+    batch_size:
+      default: '1'
+      type: INT
+    clip_vision:
+      type: CLIP_VISION
+    elevation:
+      default: '0.0'
+      type: FLOAT
+    elevation_batch_increment:
+      default: '0.0'
+      type: FLOAT
+    height:
+      default: '256'
+      type: INT
+    init_image:
+      type: IMAGE
+    vae:
+      type: VAE
+    width:
+      default: '256'
+      type: INT
+  output_params:
+    latent: LATENT
+    negative: CONDITIONING
+    positive: CONDITIONING
+StyleModelApply:
+  input_params:
+    clip_vision_output:
+      type: CLIP_VISION_OUTPUT
+    conditioning:
+      type: CONDITIONING
+    strength:
+      default: '1.0'
+      type: FLOAT
+    strength_type:
+      type: '[''multiply'', ''attn_bias'']'
+    style_model:
+      type: STYLE_MODEL
+  output_params:
+    output_0: CONDITIONING
+StyleModelLoader:
+  input_params:
+    style_model_name:
+      type: '[]'
+  output_params:
+    output_0: STYLE_MODEL
+TextEncodeHunyuanVideo_ImageToVideo:
+  input_params:
+    clip:
+      type: CLIP
+    clip_vision_output:
+      type: CLIP_VISION_OUTPUT
+    image_interleave:
+      default: '2'
+      type: INT
+    prompt:
+      type: STRING
+  output_params:
+    output_0: CONDITIONING
+UNETLoader:
+  input_params:
+    unet_name:
+      type: '[]'
+    weight_dtype:
+      type: '[''default'', ''fp8_e4m3fn'', ''fp8_e4m3fn_fast'', ''fp8_e5m2'']'
+  output_params:
+    output_0: MODEL
+VAEDecode:
+  input_params:
+    samples:
+      type: LATENT
+    vae:
+      type: VAE
+  output_params:
+    output_0: IMAGE
+VAEDecodeHunyuan3D:
+  input_params:
+    num_chunks:
+      default: '8000'
+      type: INT
+    octree_resolution:
+      default: '256'
+      type: INT
+    samples:
+      type: LATENT
+    vae:
+      type: VAE
+  output_params:
+    output_0: VOXEL
+VAEDecodeTiled:
+  input_params:
+    overlap:
+      default: '64'
+      type: INT
+    samples:
+      type: LATENT
+    temporal_overlap:
+      default: '8'
+      type: INT
+    temporal_size:
+      default: '64'
+      type: INT
+    tile_size:
+      default: '512'
+      type: INT
+    vae:
+      type: VAE
+  output_params:
+    output_0: IMAGE
+VAEEncode:
+  input_params:
+    pixels:
+      type: IMAGE
+    vae:
+      type: VAE
+  output_params:
+    output_0: LATENT
+VAEEncodeForInpaint:
+  input_params:
+    grow_mask_by:
+      default: '6'
+      type: INT
+    mask:
+      type: MASK
+    pixels:
+      type: IMAGE
+    vae:
+      type: VAE
+  output_params:
+    output_0: LATENT
+VAEEncodeTiled:
+  input_params:
+    overlap:
+      default: '64'
+      type: INT
+    pixels:
+      type: IMAGE
+    temporal_overlap:
+      default: '8'
+      type: INT
+    temporal_size:
+      default: '64'
+      type: INT
+    tile_size:
+      default: '512'
+      type: INT
+    vae:
+      type: VAE
+  output_params:
+    output_0: LATENT
+VAELoader:
+  input_params:
+    vae_name:
+      type: '[]'
+  output_params:
+    output_0: VAE
+VoxelToMesh:
+  input_params:
+    algorithm:
+      type: '[''surface net'', ''basic'']'
+    threshold:
+      default: '0.6'
+      type: FLOAT
+    voxel:
+      type: VOXEL
+  output_params:
+    output_0: MESH
+VoxelToMeshBasic:
+  input_params:
+    threshold:
+      default: '0.6'
+      type: FLOAT
+    voxel:
+      type: VOXEL
+  output_params:
+    output_0: MESH
+unCLIPCheckpointLoader:
+  input_params:
+    ckpt_name:
+      type: '[]'
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+    output_2: VAE
+    output_3: CLIP_VISION
+unCLIPConditioning:
+  input_params:
+    clip_vision_output:
+      type: CLIP_VISION_OUTPUT
+    conditioning:
+      type: CONDITIONING
+    noise_augmentation:
+      default: '0.0'
+      type: FLOAT
+    strength:
+      default: '1.0'
+      type: FLOAT
+  output_params:
+    output_0: CONDITIONING

@@ -1,0 +1,163 @@
+# extended_nodes_example.yaml的内容
+CheckpointLoaderSimple:
+  input_params:
+    ckpt_name:
+      type: string
+      default: "default_model.safetensors"
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+    output_2: VAE
+
+EmptyLatentImage:
+  input_params:
+    width:
+      type: int
+      default: 512
+    height:
+      type: int
+      default: 512
+    batch_size:
+      type: int
+      default: 1
+  output_params:
+    output_0: LATENT
+
+CLIPTextEncode:
+  input_params:
+    text:
+      type: string
+      default: ""
+    clip:
+      type: CLIP
+  output_params:
+    output_0: CONDITIONING
+
+KSampler:
+  input_params:
+    seed:
+      type: int
+      default: 0
+    steps:
+      type: int
+      default: 20
+    cfg:
+      type: float
+      default: 8.0
+    sampler_name:
+      type: string
+      default: "euler"
+    scheduler:
+      type: string
+      default: "normal"
+    denoise:
+      type: float
+      default: 1.0
+    model:
+      type: MODEL
+    positive:
+      type: CONDITIONING
+    negative:
+      type: CONDITIONING
+    latent_image:
+      type: LATENT
+  output_params:
+    output_0: LATENT
+
+VAEDecode:
+  input_params:
+    samples:
+      type: LATENT
+    vae:
+      type: VAE
+  output_params:
+    output_0: IMAGE
+
+SaveImage:
+  input_params:
+    images:
+      type: IMAGE
+    filename_prefix:
+      type: string
+      default: "ComfyUI"
+  output_params: {}
+
+LoadImage:
+  input_params:
+    image:
+      type: string
+      default: "input.png"
+  output_params:
+    output_0: IMAGE
+    output_1: MASK
+
+LoraLoader:
+  input_params:
+    model:
+      type: MODEL
+    clip:
+      type: CLIP
+    lora_name:
+      type: string
+      default: ""
+    strength_model:
+      type: float
+      default: 1.0
+    strength_clip:
+      type: float
+      default: 1.0
+  output_params:
+    output_0: MODEL
+    output_1: CLIP
+
+ControlNetLoader:
+  input_params:
+    control_net_name:
+      type: string
+      default: ""
+  output_params:
+    output_0: CONTROL_NET
+
+ControlNetApply:
+  input_params:
+    conditioning:
+      type: CONDITIONING
+    control_net:
+      type: CONTROL_NET
+    image:
+      type: IMAGE
+    strength:
+      type: float
+      default: 1.0
+  output_params:
+    output_0: CONDITIONING
+
+UpscaleModelLoader:
+  input_params:
+    model_name:
+      type: string
+      default: ""
+  output_params:
+    output_0: UPSCALE_MODEL
+
+ImageUpscaleWithModel:
+  input_params:
+    upscale_model:
+      type: UPSCALE_MODEL
+    image:
+      type: IMAGE
+  output_params:
+    output_0: IMAGE
+
+CannyEdgePreprocessor:
+  input_params:
+    image:
+      type: IMAGE
+    low_threshold:
+      type: int
+      default: 100
+    high_threshold:
+      type: int
+      default: 200
+  output_params:
+    output_0: IMAGE

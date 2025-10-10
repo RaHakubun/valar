@@ -1,0 +1,59 @@
+# 配置文件模板
+# 使用时请复制为 config.yaml 并填写真实的API密钥
+
+# OpenAI API配置
+openai:
+  api_key: "YOUR_OPENAI_API_KEY_HERE"
+  api_base: "https://api.openai.com/v1"  # 如果使用代理可修改
+  embedding_model: "text-embedding-3-large"
+  chat_model: "gpt-4-turbo"  # 或 "gpt-4", "gpt-4o"
+  temperature: 0.7
+  max_tokens: 4096
+
+# Reranker模型配置（本地部署）
+reranker:
+  model_name: "cross-encoder/mmarco-mMiniLMv2-L12-H384-V1"
+  model_path: "./models/reranker"  # 本地模型路径
+  device: "cuda"  # 或 "cpu"
+  batch_size: 32
+
+# 工作流库配置
+workflow_library:
+  data_path: "./data/workflow_library"
+  index_path: "./data/workflow_library/index"
+  vector_index_path: "./data/workflow_library/embeddings.faiss"
+  
+  # 检索配置
+  retrieval:
+    top_k_recall: 50  # 向量召回数量
+    top_k_rerank: 10  # 重排序后保留数量
+    similarity_threshold: 0.6  # 匹配阈值
+
+# 代码拆分配置
+code_splitting:
+  strategy: "hybrid"  # "statement" / "semantic" / "hybrid"
+  min_fragment_size: 1  # 最小片段大小（语句数）
+  max_fragment_size: 10  # 最大片段大小
+
+# 片段-需求匹配配置
+fragment_matching:
+  matching_threshold: 0.65  # 匹配阈值
+  use_llm: true  # 是否使用LLM判断
+  fallback_to_similarity: true  # 如果LLM失败，回退到相似度
+
+# 工作流验证配置
+validation:
+  check_syntax: true
+  check_semantics: true
+  check_types: true
+  max_node_count: 100  # 最大节点数限制
+
+# 日志配置
+logging:
+  level: "INFO"  # DEBUG / INFO / WARNING / ERROR
+  log_dir: "./logs"
+  save_intermediate_results: true  # 是否保存中间结果
+
+# 节点定义文件
+node_definitions:
+  yaml_path: "./previouswork/nodes.yaml"  # 使用前作的节点定义
