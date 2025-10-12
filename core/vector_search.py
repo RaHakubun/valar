@@ -14,11 +14,8 @@ except ImportError:
     print("警告: faiss未安装，向量检索功能不可用")
     faiss = None
 
-try:
-    from sentence_transformers import CrossEncoder
-except ImportError:
-    print("警告: sentence-transformers未安装，Reranker功能不可用")
-    CrossEncoder = None
+import requests
+import json as json_module
 
 
 class VectorIndex:
@@ -151,19 +148,29 @@ class VectorIndex:
 
 
 class Reranker:
-    """重排序器"""
+    """重排序器 - 支持API和本地模型两种方式"""
     
-    def __init__(self, model_name: str = 'cross-encoder/mmarco-mMiniLMv2-L12-H384-V1'):
+    def __init__(self, config: Dict[str, Any]):
         """
         初始化Reranker
         
         Args:
-            model_name: 模型名称或路径
+            config: reranker配置字典
         """
-        if CrossEncoder is None:
-            raise ImportError("请安装sentence-transformers: pip install sentence-transformers")
+        self.config = config
+        self.type = config.get('type', 'api')
         
-        self.model = CrossEncoder(model_name)
+        if self.type == 'api':
+            # API模式
+            self.api_url = config.get('api_url', 'https://api.siliconflow.cn/v1/rerank')
+            self.api_key = config.get('api_key')
+            self.model_name = config.get('model', 'Pro/BAAI/bge-reranker-v2-m3')
+            self.max_chunks_per_doc = config.get('max_chunks_per_doc', 1024)
+            self.overlap_tokens = config.get('overlap_tokens', 80)
+            print(f"[Reranker] 使用API模式: {self.model_name}")
+        else:
+            # 本地模型模式（已废弃）
+            raise NotImplementedError("本地reranker已废弃，请使用API模式")
     
     def rerank(
         self,
@@ -183,23 +190,80 @@ class Reranker:
             重排序后的工作流列表
         """
         if not candidates:
+            print("[Reranker] 警告: 候选列表为空")
             return []
         
-        # 构建输入对
-        pairs = [
-            (query, candidate.intent.description)
-            for candidate in candidates
-        ]
+        print(f"[Reranker] 开始重排序: {len(candidates)} 个候选")
         
-        # 计算得分
-        scores = self.model.predict(pairs)
+        try:
+            if self.type == 'api':
+                return self._rerank_api(query, candidates, top_k)
+            else:
+                raise NotImplementedError("本地reranker已废弃")
+        except Exception as e:
+            print(f"[Reranker] 错误: {e}, 使用原始顺序")
+            import traceback
+            traceback.print_exc()
+            return candidates[:top_k]
+    
+    def _rerank_api(
+        self,
+        query: str,
+        candidates: List[WorkflowEntry],
+        top_k: int
+    ) -> List[WorkflowEntry]:
+        """使用API进行重排序"""
+        # 构建 documents 列表（使用 workflow 的 intent.description）
+        documents = [candidate.intent.description for candidate in candidates]
         
-        # 排序
-        scored_candidates = list(zip(scores, candidates))
-        scored_candidates.sort(key=lambda x: x[0], reverse=True)
+        # 构建 API 请求
+        payload = {
+            "model": self.model_name,
+            "query": query,
+            "documents": documents,
+            "top_n": min(top_k, len(documents)),  # 不超过候选数量
+            "return_documents": True,
+            "max_chunks_per_doc": self.max_chunks_per_doc,
+            "overlap_tokens": self.overlap_tokens
+        }
         
-        # 返回top-k
-        return [candidate for _, candidate in scored_candidates[:top_k]]
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        # 调用API
+        print(f"[Reranker] 调用API: {self.api_url}")
+        response = requests.post(self.api_url, json=payload, headers=headers, timeout=30)
+        
+        if response.status_code != 200:
+            print(f"[Reranker] API错误: {response.status_code}")
+            print(response.text)
+            return candidates[:top_k]
+        
+        # 解析结果
+        data = response.json()
+        results = data.get('results', [])
+        
+        if not results:
+            print(f"[Reranker] API返回结果为空")
+            return candidates[:top_k]
+        
+        print(f"[Reranker] API返回 {len(results)} 个结果")
+        
+        # 根据返回的索引重新排序
+        reranked_candidates = []
+        for item in results:
+            index = item['index']
+            score = item['relevance_score']
+            
+            if 0 <= index < len(candidates):
+                reranked_candidates.append(candidates[index])
+                if len(reranked_candidates) <= 3:  # 只打印前3个
+                    print(f"  {len(reranked_candidates)}. {candidates[index].workflow_id}: {candidates[index].intent.description[:60]}... (得分: {score:.4f})")
+        
+        print(f"[Reranker] 重排序完成")
+        return reranked_candidates[:top_k]
 
 
 class WorkflowRetriever:
@@ -229,8 +293,8 @@ class WorkflowRetriever:
     def retrieve(
         self,
         atomic_need: AtomicNeed,
-        top_k_recall: int = 50,
-        top_k_rerank: int = 10
+        top_k_recall: int = 9,
+        top_k_rerank: int = 3
     ) -> List[WorkflowEntry]:
         """
         检索相关工作流
@@ -264,7 +328,14 @@ class WorkflowRetriever:
         if not candidates:
             return []
         
-        # 4. 重排序
+        print(f"[VectorSearch] 向量检索返回 {len(candidates)} 个候选")
+        
+        # 4. 重排序（限制最多20个候选，避免reranker崩溃）
+        max_rerank_candidates = 4
+        if len(candidates) > max_rerank_candidates:
+            print(f"[VectorSearch] 候选过多，只对前 {max_rerank_candidates} 个进行rerank")
+            candidates = candidates[:max_rerank_candidates]
+        
         reranked = self.reranker.rerank(query_text, candidates, top_k_rerank)
         
         return reranked
@@ -289,7 +360,7 @@ class WorkflowRetriever:
         for need in atomic_needs:
             workflows = self.retrieve(
                 need,
-                top_k_recall=50,
+                top_k_recall=20,  # 降低召回数量，避免传给reranker过多
                 top_k_rerank=top_k_per_need
             )
             results[need.need_id] = workflows

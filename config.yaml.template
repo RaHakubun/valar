@@ -1,21 +1,29 @@
 # 配置文件模板
 # 使用时请复制为 config.yaml 并填写真实的API密钥
 
-# OpenAI API配置
+# OpenAI API配置（或兼容API）
 openai:
-  api_key: "YOUR_OPENAI_API_KEY_HERE"
+  api_key: "YOUR_API_KEY_HERE"
   api_base: "https://api.openai.com/v1"  # 如果使用代理可修改
   embedding_model: "text-embedding-3-large"
   chat_model: "gpt-4-turbo"  # 或 "gpt-4", "gpt-4o"
   temperature: 0.7
   max_tokens: 4096
 
-# Reranker模型配置（本地部署）
+# Gemini API配置（用于Embedding）
+gemini:
+  api_key: "YOUR_GEMINI_API_KEY_HERE"
+  api_base: "https://xiaoai.plus/v1"  # Gemini兼容API端点
+  embedding_model: "gemini-embedding-001"
+
+# Reranker配置（使用SiliconFlow API）
 reranker:
-  model_name: "cross-encoder/mmarco-mMiniLMv2-L12-H384-V1"
-  model_path: "./models/reranker"  # 本地模型路径
-  device: "cuda"  # 或 "cpu"
-  batch_size: 32
+  type: "api"  # "api" 或 "local"（local已废弃）
+  api_url: "https://api.siliconflow.cn/v1/rerank"
+  api_key: "YOUR_SILICONFLOW_API_KEY_HERE"
+  model: "Pro/BAAI/bge-reranker-v2-m3"
+  max_chunks_per_doc: 1024
+  overlap_tokens: 80
 
 # 工作流库配置
 workflow_library:

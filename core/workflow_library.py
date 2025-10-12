@@ -5,11 +5,11 @@
 
 import os
 import json
-from typing import Dict, List, Optional, Any
-from .data_structures import WorkflowEntry, WorkflowIntent, WorkflowComplexity
-from .llm_client import LLMClient
-from .vector_search import VectorIndex
-from .utils import generate_workflow_id, extract_node_types_from_json, save_json, load_json
+from typing import Dict, List, Optional, Any, Tuple
+from core.data_structures import WorkflowEntry, WorkflowIntent, WorkflowComplexity
+from core.llm_client import LLMClient
+from core.vector_search import VectorIndex
+from core.utils import generate_workflow_id, extract_node_types_from_json, save_json, load_json
 import prompts
 
 
@@ -20,7 +20,8 @@ class WorkflowLibrary:
         self,
         data_path: str,
         llm_client: Optional[LLMClient] = None,
-        vector_index: Optional[VectorIndex] = None
+        vector_index: Optional[VectorIndex] = None,
+        vector_index_path: Optional[str] = None
     ):
         """
         初始化工作流库
@@ -29,10 +30,12 @@ class WorkflowLibrary:
             data_path: 数据存储路径
             llm_client: LLM客户端（用于意图提取和embedding）
             vector_index: 向量索引
+            vector_index_path: 向量索引保存路径
         """
         self.data_path = data_path
         self.llm = llm_client
         self.vector_index = vector_index
+        self.vector_index_path = vector_index_path or os.path.join(data_path, 'embeddings.faiss')
         
         # 工作流字典
         self.workflows: Dict[str, WorkflowEntry] = {}
@@ -48,6 +51,9 @@ class WorkflowLibrary:
         
         # 加载已有工作流
         self._load_library()
+        
+        # 加载向量索引
+        self._load_vector_index()
     
     def add_workflow(
         self,
@@ -113,6 +119,8 @@ class WorkflowLibrary:
         # 添加到向量索引
         if self.vector_index and intent_embedding:
             self.vector_index.add_workflow(entry)
+            # 保存向量索引
+            self._save_vector_index()
         
         # 持久化
         self._save_workflow(entry)
@@ -308,6 +316,7 @@ class WorkflowLibrary:
                 'operation': entry.intent.operation,
                 'style': entry.intent.style
             },
+            'intent_embedding': entry.intent_embedding,  # 保存embedding
             'source': entry.source,
             'complexity': entry.complexity.value,
             'tags': entry.tags,
@@ -364,6 +373,7 @@ class WorkflowLibrary:
                     workflow_json=workflow_json,
                     workflow_code=metadata['workflow_code'],
                     intent=intent,
+                    intent_embedding=metadata.get('intent_embedding'),  # 从文件加载
                     source=metadata.get('source', 'unknown'),
                     complexity=WorkflowComplexity(metadata.get('complexity', 'vanilla')),
                     tags=metadata.get('tags', []),
@@ -373,16 +383,10 @@ class WorkflowLibrary:
                     avg_execution_time=metadata.get('avg_execution_time', 0.0)
                 )
                 
-                # 生成embedding（如果需要）
-                if self.llm and entry.intent_embedding is None:
-                    entry.intent_embedding = self.llm.embed(intent.description)
-                
                 self.workflows[workflow_id] = entry
                 self._update_indexes(entry)
                 
-                # 添加到向量索引
-                if self.vector_index and entry.intent_embedding:
-                    self.vector_index.add_workflow(entry)
+                # 注意：不要重复添加到vector_index，因为已经从.faiss文件加载了
                 
             except Exception as e:
                 print(f"加载工作流 {workflow_id} 失败: {e}")
@@ -415,3 +419,21 @@ class WorkflowLibrary:
         tag_counts = {tag: len(wids) for tag, wids in self.tag_index.items()}
         sorted_tags = sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)
         return sorted_tags[:n]
+    
+    def _save_vector_index(self):
+        """保存向量索引"""
+        if self.vector_index and self.vector_index.index.ntotal > 0:
+            try:
+                self.vector_index.save(self.vector_index_path)
+                print(f"[DEBUG] 向量索引已保存到: {self.vector_index_path}")
+            except Exception as e:
+                print(f"[WARN] 保存向量索引失败: {e}")
+    
+    def _load_vector_index(self):
+        """加载向量索引"""
+        if self.vector_index and os.path.exists(self.vector_index_path):
+            try:
+                self.vector_index.load(self.vector_index_path)
+                print(f"[DEBUG] 向量索引已加载，包含 {self.vector_index.index.ntotal} 个向量")
+            except Exception as e:
+                print(f"[WARN] 加载向量索引失败: {e}，将使用新索引")
