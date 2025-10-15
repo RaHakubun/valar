@@ -36,15 +36,11 @@ ENV/
 config.yaml
 
 # 数据文件
-data/
-logs/
-*.json
 *.safetensors
 *.ckpt
 *.pth
-
+*.bin
 # 模型文件
-models/
 
 # 临时文件
 *.log
@@ -52,8 +48,6 @@ models/
 .DS_Store
 
 # 测试输出
-output_*.json
-test_*.py
 
 # Jupyter Notebook
 .ipynb_checkpoints

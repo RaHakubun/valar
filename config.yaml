@@ -1,0 +1,67 @@
+# 配置文件模板
+# 使用时请复制为 config.yaml 并填写真实的API密钥
+
+# OpenAI API配置（使用xiaoai.plus代理）
+openai:
+  api_key: "sk-iLjaJ8U5K37QIHQ1xYtZURR2qBErbXx2BxRbMkCkAexwEd2R"
+  api_base: "https://xiaoai.plus/v1"  # 代理服务地址
+  chat_model: "gpt-4o"  # 可用模型: gpt-4o, gpt-4, gpt-3.5-turbo等
+  embedding_model: "text-embedding-ada-002"  # embedding模型
+  temperature: 0.7
+  max_tokens: 4096
+
+# Gemini API配置（用于Embedding） - 如果不需要可以注释掉，系统会自动使用OpenAI embedding
+# gemini:
+#   api_key: "YOUR_GEMINI_API_KEY"
+#   api_base: "https://xiaoai.plus/v1"  # Gemini兼容API端点
+#   embedding_model: "gemini-embedding-001"
+
+# Reranker配置（使用SiliconFlow API）
+reranker:
+  type: "api"  # "api" 或 "local"
+  api_url: "https://api.siliconflow.cn/v1/rerank"
+  api_key: "sk-yxkpohdhqqodfoaievjyhlsspdajxuprjzfepuxgacheniem"
+  model: "Pro/BAAI/bge-reranker-v2-m3"
+  max_chunks_per_doc: 1024
+  overlap_tokens: 80
+
+# 工作流库配置
+workflow_library:
+  data_path: "./data/workflow_library"
+  index_path: "./data/workflow_library/index"
+  vector_index_path: "./data/workflow_library/embeddings.faiss"
+  
+  # 检索配置
+  retrieval:
+    top_k_recall: 9  # 向量召回数量
+    top_k_rerank: 3  # 重排序后保留数量
+    similarity_threshold: 0.6  # 匹配阈值
+
+# 代码拆分配置
+code_splitting:
+  strategy: "hybrid"  # "statement" / "semantic" / "hybrid"
+  min_fragment_size: 1  # 最小片段大小（语句数）
+  max_fragment_size: 10  # 最大片段大小
+
+# 片段-需求匹配配置
+fragment_matching:
+  matching_threshold: 0.65  # 匹配阈值
+  use_llm: true  # 是否使用LLM判断
+  fallback_to_similarity: true  # 如果LLM失败，回退到相似度
+
+# 工作流验证配置
+validation:
+  check_syntax: true
+  check_semantics: true
+  check_types: true
+  max_node_count: 100  # 最大节点数限制
+
+# 日志配置
+logging:
+  level: "INFO"  # DEBUG / INFO / WARNING / ERROR
+  log_dir: "./logs"
+  save_intermediate_results: true  # 是否保存中间结果
+
+# 节点定义文件
+node_definitions:
+  yaml_path: "./previouswork/nodes.yaml"  # 使用前作的节点定义
