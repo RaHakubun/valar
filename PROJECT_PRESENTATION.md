@@ -132,7 +132,7 @@ vector_index.add_workflow(workflow_entry)
 用户需求: "生成一个粘土风格的人物肖像，并进行4倍超分辨率处理"
 ```
 
-#### 步骤1.1: 需求分解（Need Decomposition）
+#### 步骤1.1: 需求分解（Requirement Decomposition）
 
 使用LLM将复合需求拆分为原子需求：
 
