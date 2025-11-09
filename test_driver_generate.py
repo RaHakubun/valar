@@ -16,7 +16,7 @@ generator = ComfyUIWorkflowGenerator('config.yaml')
 print("系统初始化完成\n")
 
 # 测试需求
-test_request = "生成一个粘土风格的人物肖像"
+test_request = "生成一个帆船在大海上面航行的图像，再把这个图像转为视频"
 
 print("--- 演示 ---")
 print(f"需求: {test_request}")

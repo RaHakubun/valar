@@ -67,5 +67,647 @@
     "outputs": [],
     "class_type": "SaveImage",
     "auto_generated": true
+  },
+  "VAELoader": {
+    "identifier": "vae_loader",
+    "outputs": [
+      {
+        "name": "VAE",
+        "type": "VAE"
+      }
+    ],
+    "class_type": "VAELoader",
+    "auto_generated": true
+  },
+  "ConditioningSetArea": {
+    "identifier": "conditioning_set_area",
+    "outputs": [
+      {
+        "name": "CONDITIONING",
+        "type": "CONDITIONING"
+      }
+    ],
+    "class_type": "ConditioningSetArea",
+    "auto_generated": true
+  },
+  "ConditioningCombine": {
+    "identifier": "conditioning_combine",
+    "outputs": [
+      {
+        "name": "CONDITIONING",
+        "type": "CONDITIONING"
+      }
+    ],
+    "class_type": "ConditioningCombine",
+    "auto_generated": true
+  },
+  "PreviewImage": {
+    "identifier": "preview_image",
+    "outputs": [],
+    "class_type": "PreviewImage",
+    "auto_generated": true
+  },
+  "EmptyImage": {
+    "identifier": "empty_image",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "EmptyImage",
+    "auto_generated": true
+  },
+  "CR Overlay Text": {
+    "identifier": "cr _overlay _text",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "CR Overlay Text",
+    "auto_generated": true
+  },
+  "RIFE VFI": {
+    "identifier": "rife vfi",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "RIFE VFI",
+    "auto_generated": true
+  },
+  "VHS_VideoCombine": {
+    "identifier": "vhs__video_combine",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "VHS_VideoCombine",
+    "auto_generated": true
+  },
+  "VHS_LoadVideo": {
+    "identifier": "vhs__load_video",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "VHS_LoadVideo",
+    "auto_generated": true
+  },
+  "LoadImage": {
+    "identifier": "load_image",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "LoadImage",
+    "auto_generated": true
+  },
+  "ControlNetLoader": {
+    "identifier": "control_net_loader",
+    "outputs": [
+      {
+        "name": "CONTROL_NET",
+        "type": "CONTROL_NET"
+      }
+    ],
+    "class_type": "ControlNetLoader",
+    "auto_generated": true
+  },
+  "ControlNetApply": {
+    "identifier": "control_net_apply",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "ControlNetApply",
+    "auto_generated": true
+  },
+  "ImageScale": {
+    "identifier": "image_scale",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "ImageScale",
+    "auto_generated": true
+  },
+  "DWPreprocessor": {
+    "identifier": "dw_preprocessor",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "DWPreprocessor",
+    "auto_generated": true
+  },
+  "ControlNetApplyAdvanced": {
+    "identifier": "control_net_apply_advanced",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "ControlNetApplyAdvanced",
+    "auto_generated": true
+  },
+  "AIO_Preprocessor": {
+    "identifier": "aio__preprocessor",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "AIO_Preprocessor",
+    "auto_generated": true
+  },
+  "VAEEncode": {
+    "identifier": "vae_encode",
+    "outputs": [
+      {
+        "name": "LATENT",
+        "type": "LATENT"
+      }
+    ],
+    "class_type": "VAEEncode",
+    "auto_generated": true
+  },
+  "BNK_Unsampler": {
+    "identifier": "bnk__unsampler",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "BNK_Unsampler",
+    "auto_generated": true
+  },
+  "KSamplerAdvanced": {
+    "identifier": "k_sampler_advanced",
+    "outputs": [
+      {
+        "name": "LATENT",
+        "type": "LATENT"
+      }
+    ],
+    "class_type": "KSamplerAdvanced",
+    "auto_generated": true
+  },
+  "CLIPSetLastLayer": {
+    "identifier": "clip_set_last_layer",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "CLIPSetLastLayer",
+    "auto_generated": true
+  },
+  "LoraLoader": {
+    "identifier": "lora_loader",
+    "outputs": [
+      {
+        "name": "MODEL",
+        "type": "MODEL"
+      },
+      {
+        "name": "CLIP",
+        "type": "CLIP"
+      }
+    ],
+    "class_type": "LoraLoader",
+    "auto_generated": true
+  },
+  "BNK_CLIPTextEncodeAdvanced": {
+    "identifier": "bnk_clip_text_encode_advanced",
+    "outputs": [
+      {
+        "name": "CONDITIONING",
+        "type": "CONDITIONING"
+      }
+    ],
+    "class_type": "BNK_CLIPTextEncodeAdvanced",
+    "auto_generated": true
+  },
+  "DiffControlNetLoader": {
+    "identifier": "diff_control_net_loader",
+    "outputs": [
+      {
+        "name": "CONTROL_NET",
+        "type": "CONTROL_NET"
+      }
+    ],
+    "class_type": "DiffControlNetLoader",
+    "auto_generated": true
+  },
+  "MiDaS-DepthMapPreprocessor": {
+    "identifier": "mi_da_s-_depth_map_preprocessor",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "MiDaS-DepthMapPreprocessor",
+    "auto_generated": true
+  },
+  "ReActorFaceSwap": {
+    "identifier": "re_actor_face_swap",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "ReActorFaceSwap",
+    "auto_generated": true
+  },
+  "FaceDetailer": {
+    "identifier": "face_detailer",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "FaceDetailer",
+    "auto_generated": true
+  },
+  "UltralyticsDetectorProvider": {
+    "identifier": "ultralytics_detector_provider",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "UltralyticsDetectorProvider",
+    "auto_generated": true
+  },
+  "SAMLoader": {
+    "identifier": "sam_loader",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "SAMLoader",
+    "auto_generated": true
+  },
+  "GetImageSize+": {
+    "identifier": "get_image_size+",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "GetImageSize+",
+    "auto_generated": true
+  },
+  "ImageInvert": {
+    "identifier": "image_invert",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "ImageInvert",
+    "auto_generated": true
+  },
+  "SVD_img2vid_Conditioning": {
+    "identifier": "svd_img2vid__conditioning",
+    "outputs": [
+      {
+        "name": "CONDITIONING",
+        "type": "CONDITIONING"
+      }
+    ],
+    "class_type": "SVD_img2vid_Conditioning",
+    "auto_generated": true
+  },
+  "ImageOnlyCheckpointLoader": {
+    "identifier": "image_only_checkpoint_loader",
+    "outputs": [
+      {
+        "name": "MODEL",
+        "type": "MODEL"
+      },
+      {
+        "name": "CLIP",
+        "type": "CLIP"
+      },
+      {
+        "name": "VAE",
+        "type": "VAE"
+      }
+    ],
+    "class_type": "ImageOnlyCheckpointLoader",
+    "auto_generated": true
+  },
+  "VideoLinearCFGGuidance": {
+    "identifier": "video_linear_cfg_guidance",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "VideoLinearCFGGuidance",
+    "auto_generated": true
+  },
+  "VAEEncodeForInpaint": {
+    "identifier": "vae_encode_for_inpaint",
+    "outputs": [
+      {
+        "name": "LATENT",
+        "type": "LATENT"
+      }
+    ],
+    "class_type": "VAEEncodeForInpaint",
+    "auto_generated": true
+  },
+  "GroundingDinoSAMSegment (segment anything)": {
+    "identifier": "grounding_dino_sam_segment (segment anything)",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "GroundingDinoSAMSegment (segment anything)",
+    "auto_generated": true
+  },
+  "GroundingDinoModelLoader (segment anything)": {
+    "identifier": "grounding_dino_model_loader (segment anything)",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "GroundingDinoModelLoader (segment anything)",
+    "auto_generated": true
+  },
+  "SAMModelLoader (segment anything)": {
+    "identifier": "sam_model_loader (segment anything)",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "SAMModelLoader (segment anything)",
+    "auto_generated": true
+  },
+  "GrowMask": {
+    "identifier": "grow_mask",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "GrowMask",
+    "auto_generated": true
+  },
+  "UpscaleModelLoader": {
+    "identifier": "upscale_model_loader",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "UpscaleModelLoader",
+    "auto_generated": true
+  },
+  "ImageUpscaleWithModel": {
+    "identifier": "image_upscale_with_model",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "ImageUpscaleWithModel",
+    "auto_generated": true
+  },
+  "LaMaInpaint": {
+    "identifier": "la_ma_inpaint",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "LaMaInpaint",
+    "auto_generated": true
+  },
+  "unCLIPCheckpointLoader": {
+    "identifier": "un_clip_checkpoint_loader",
+    "outputs": [
+      {
+        "name": "MODEL",
+        "type": "MODEL"
+      },
+      {
+        "name": "CLIP",
+        "type": "CLIP"
+      },
+      {
+        "name": "VAE",
+        "type": "VAE"
+      }
+    ],
+    "class_type": "unCLIPCheckpointLoader",
+    "auto_generated": true
+  },
+  "CLIPVisionEncode": {
+    "identifier": "clip_vision_encode",
+    "outputs": [
+      {
+        "name": "CONDITIONING",
+        "type": "CONDITIONING"
+      }
+    ],
+    "class_type": "CLIPVisionEncode",
+    "auto_generated": true
+  },
+  "unCLIPConditioning": {
+    "identifier": "un_clip_conditioning",
+    "outputs": [
+      {
+        "name": "CONDITIONING",
+        "type": "CONDITIONING"
+      }
+    ],
+    "class_type": "unCLIPConditioning",
+    "auto_generated": true
+  },
+  "ImageScaleBy": {
+    "identifier": "image_scale_by",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "ImageScaleBy",
+    "auto_generated": true
+  },
+  "ImagePadForOutpaint": {
+    "identifier": "image_pad_for_outpaint",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "ImagePadForOutpaint",
+    "auto_generated": true
+  },
+  "IPAdapterAdvanced": {
+    "identifier": "ip_adapter_advanced",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "IPAdapterAdvanced",
+    "auto_generated": true
+  },
+  "IPAdapterModelLoader": {
+    "identifier": "ip_adapter_model_loader",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "IPAdapterModelLoader",
+    "auto_generated": true
+  },
+  "CLIPVisionLoader": {
+    "identifier": "clip_vision_loader",
+    "outputs": [
+      {
+        "name": "CLIP",
+        "type": "CLIP"
+      }
+    ],
+    "class_type": "CLIPVisionLoader",
+    "auto_generated": true
+  },
+  "easy imageRemBg": {
+    "identifier": "easy image_rem_bg",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "easy imageRemBg",
+    "auto_generated": true
+  },
+  "ImageResize+": {
+    "identifier": "image_resize+",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "ImageResize+",
+    "auto_generated": true
+  },
+  "ImageCompositeMasked": {
+    "identifier": "image_composite_masked",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "ImageCompositeMasked",
+    "auto_generated": true
+  },
+  "SplitImageWithAlpha": {
+    "identifier": "split_image_with_alpha",
+    "outputs": [
+      {
+        "name": "IMAGE",
+        "type": "IMAGE"
+      }
+    ],
+    "class_type": "SplitImageWithAlpha",
+    "auto_generated": true
+  },
+  "DetailTransfer": {
+    "identifier": "detail_transfer",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "DetailTransfer",
+    "auto_generated": true
+  },
+  "easy ipadapterApply": {
+    "identifier": "easy ipadapter_apply",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "easy ipadapterApply",
+    "auto_generated": true
+  },
+  "LoadAndApplyICLightUnet": {
+    "identifier": "load_and_apply_ic_light_unet",
+    "outputs": [
+      {
+        "name": "OUTPUT",
+        "type": "UNKNOWN"
+      }
+    ],
+    "class_type": "LoadAndApplyICLightUnet",
+    "auto_generated": true
+  },
+  "ICLightConditioning": {
+    "identifier": "ic_light_conditioning",
+    "outputs": [
+      {
+        "name": "CONDITIONING",
+        "type": "CONDITIONING"
+      }
+    ],
+    "class_type": "ICLightConditioning",
+    "auto_generated": true
   }
 }

@@ -122,7 +122,7 @@ class ComfyUIWorkflowGenerator:
         decomposed = self.need_decomposer.decompose(user_request)
         print(f"  → 分解为 {len(decomposed.atomic_needs)} 个原子需求:")
         for need in decomposed.atomic_needs:
-            print(f"    - {need.description} ({need.category})")
+            print(f"    - {need}")
         
         intermediate_results['decomposed_needs'] = decomposed
         
@@ -138,7 +138,7 @@ class ComfyUIWorkflowGenerator:
         
         total_retrieved = sum(len(wfs) for wfs in retrieved_workflows.values())
         print(f"  → 检索到 {total_retrieved} 个候选工作流")
-        
+        print(retrieved_workflows)
         intermediate_results['retrieved_workflows'] = retrieved_workflows
         
         # ===== 阶段2: 工作流框架适配 =====

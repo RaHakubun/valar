@@ -174,11 +174,11 @@ class ComfyUIWorkflowGenerator:
             
             print(f"\n分解为 {len(decomposed_needs.atomic_needs)} 个原子需求:")
             for i, need in enumerate(decomposed_needs.atomic_needs, 1):
-                print(f"{i}. {need.description}")
-                print(f"   - 类别: {need.category}")
-                print(f"   - 优先级: {need.priority}")
-                print(f"   - 依赖: {need.dependencies}")
-            
+                print(f"{i}. {need}")
+                # print(f"   - 类别: {need.category}")
+                # print(f"   - 优先级: {need.priority}")
+                # print(f"   - 依赖: {need.dependencies}")
+            #思考过程没有放入AtomicNeeds里面
             # 为每个原子需求检索候选工作流
             print("\n" + "="*80)
             print("阶段1: 检索候选工作流")
@@ -196,6 +196,7 @@ class ComfyUIWorkflowGenerator:
                 print(f"找到 {len(candidates)} 个候选工作流:")
                 for i, wf in enumerate(candidates[:3], 1):  # 只显示前3个
                     print(f"  {i}. {wf.workflow_id}: {wf.intent.description}")
+                    print(wf)
             
             # 阶段2: 工作流框架级别智能适配
             print("\n" + "="*80)

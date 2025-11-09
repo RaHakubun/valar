@@ -72,6 +72,24 @@ class AtomicNeed:
     dependencies: List[str] = field(default_factory=list)  # 依赖的其他need_id
     constraints: Dict[str, Any] = field(default_factory=dict)  # 约束条件
 
+# priority 表示每个原子任务在整体任务图中的优先级等级（priority level）。
+# 虽然拓扑排序 (execution_order) 已经决定了“必须先后”的依赖顺序，
+# 但在 同一层（无直接依赖关系） 的节点之间，系统仍然可能需要一个“执行权重”来决定谁先跑。
+# 典型用途
+# 1. 多任务并行调度
+# 假设你的分解结果如下：
+# {
+#   "dependency_graph": {
+#     "N1": [],
+#     "N2": ["N1"],
+#     "N3": ["N1"]
+#   }
+# }
+# N2 和 N3 没有相互依赖，可以并行执行。
+# 但如果你希望优先执行视频生成任务 (N2)，再执行配图任务 (N3)，就可以用：
+# "N2": priority=8
+# "N3": priority=3
+# 执行引擎在分配 GPU 或线程池任务时，就能按优先级排队。
 
 @dataclass
 class DecomposedNeeds:
